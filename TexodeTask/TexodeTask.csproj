@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Texode.Service.Logic\TexodeTask.Service.Logic.csproj" />
     <ProjectReference Include="..\TexodeTask.Access.SqlServer\TexodeTask.Access.SqlServer.csproj" />
     <ProjectReference Include="..\TexodeTask.Access\TexodeTask.Access.csproj" />
+    <ProjectReference Include="..\TexodeTask.Service.Logic\TexodeTask.Service.Logic.csproj" />
     <ProjectReference Include="..\TexodeTask.Service\TexodeTask.Service.csproj" />
   </ItemGroup>
 

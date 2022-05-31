@@ -7,11 +7,12 @@ namespace TexodeTask.Access
 {
     public interface ICardAccess
     {
+        public Task<int> AddCardAsync(CardEntity cardEntity);
         public Task<IEnumerable<CardEntity>> GetAllCardsAsync();
         public Task<CardEntity> GetCardAsync(int id);
-        public Task<int> UpdateCard(CardEntity cardEntity);
-        public Task<int> DeleteCard(int id);
-        public Task<int> DeleteListOFCards(IEnumerable<int> listOfId);
-        public Task<IEnumerable<CardEntity>> SortCardsByName();
+        public Task<int> UpdateCardAsync(CardEntity cardEntity);
+        public Task<int> DeleteCardAsync(int id);
+        public Task<int> DeleteListOFCardsAsync(IEnumerable<int> listOfId);
+        public Task<IEnumerable<CardEntity>> SortCardsByNameAsync();
     }
 }

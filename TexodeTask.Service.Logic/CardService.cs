@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TexodeTask.Access;
 using TexodeTask.Access.Entity;
@@ -11,7 +12,6 @@ namespace TexodeTask.Service.Logic
     public class CardService : ICardService
     {
         private readonly ICardAccess _cardAccess;
-        private readonly IMapper _mapperIEnumerable;
         private readonly IMapper _mapperCard;
         private readonly IMapper _mapperCardEntity;
 
@@ -19,23 +19,30 @@ namespace TexodeTask.Service.Logic
         { 
             _cardAccess = cardAccess;
 
-            var configIEnumerable = new MapperConfiguration(cfg => cfg.CreateMap<IEnumerable<CardEntity>, IEnumerable<Card>>());
             var configCard = new MapperConfiguration(cfg => cfg.CreateMap<CardEntity, Card>());
             var configCardEntity = new MapperConfiguration(cfg => cfg.CreateMap<Card, CardEntity>());
 
-            _mapperIEnumerable = new Mapper(configIEnumerable);
             _mapperCard = new Mapper(configCard);
             _mapperCardEntity = new Mapper(configCardEntity);
         }
 
-        public async Task<int> DeleteCard(int id)
+        public async Task<int> AddCardAsync(Card card)
+        {
+            card = card ?? throw new ArgumentNullException(nameof(card), "Card is null");
+
+            var cardEntity = _mapperCardEntity.Map<CardEntity>(card);
+
+            return await _cardAccess.AddCardAsync(cardEntity);
+        }
+
+        public async Task<int> DeleteCardAsync(int id)
         {
             id = id >= 0 ? id : throw new ArgumentOutOfRangeException(nameof(id), "Less than 0");
 
-            return await _cardAccess.DeleteCard(id);
+            return await _cardAccess.DeleteCardAsync(id);
         }
 
-        public async Task<int> DeleteListOFCards(IEnumerable<int> listOfId)
+        public async Task<int> DeleteListOFCardsAsync(IEnumerable<int> listOfId)
         {
             listOfId = listOfId ?? throw new ArgumentNullException(nameof(listOfId), "List of id is null");
 
@@ -43,14 +50,14 @@ namespace TexodeTask.Service.Logic
                 if (id < 0)
                     throw new ArgumentOutOfRangeException(nameof(id), "Less than 0");
 
-            return await _cardAccess.DeleteListOFCards(listOfId);
+            return await _cardAccess.DeleteListOFCardsAsync(listOfId);
         }
 
         public async Task<IEnumerable<Card>> GetAllCardsAsync()
         {
             var cardsEntity = await _cardAccess.GetAllCardsAsync();
 
-            return _mapperIEnumerable.Map<IEnumerable<Card>>(cardsEntity);
+            return cardsEntity.Select(card => _mapperCard.Map<Card>(card)).AsEnumerable();
         }
 
         public async Task<Card> GetCardAsync(int id)
@@ -62,20 +69,20 @@ namespace TexodeTask.Service.Logic
             return _mapperCard.Map<Card>(card);
         }
 
-        public async Task<IEnumerable<Card>> SortCardsByName()
+        public async Task<IEnumerable<Card>> SortCardsByNameAsync()
         {
-            var cardsEntity = await _cardAccess.SortCardsByName();
+            var cardsEntity = await _cardAccess.SortCardsByNameAsync();
 
-            return _mapperIEnumerable.Map<IEnumerable<Card>>(cardsEntity);
+            return cardsEntity.Select(card => _mapperCard.Map<Card>(card)).AsEnumerable();
         }
 
-        public async Task<int> UpdateCard(Card card)
+        public async Task<int> UpdateCardAsync(Card card)
         {
             card = card ?? throw new ArgumentNullException(nameof(card), "Card is null");
 
             var cardEntity = _mapperCardEntity.Map<CardEntity>(card);
 
-            return await _cardAccess.UpdateCard(cardEntity);
+            return await _cardAccess.UpdateCardAsync(cardEntity);
         }
     }
 }

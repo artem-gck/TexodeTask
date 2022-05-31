@@ -15,7 +15,16 @@ namespace TexodeTask.Access.SqlServer
         public CardAccess(CardContext cardContext)
             => _cardContext = cardContext;
 
-        public async Task<int> DeleteCard(int id)
+        public async Task<int> AddCardAsync(CardEntity cardEntity)
+        {
+            cardEntity = cardEntity ?? throw new ArgumentNullException(nameof(cardEntity), "Card is null");
+
+            await _cardContext.AddAsync(cardEntity);
+
+            return await _cardContext.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteCardAsync(int id)
         {
             id = id >= 0 ? id : throw new ArgumentOutOfRangeException(nameof(id), "Less than 0");
 
@@ -25,7 +34,7 @@ namespace TexodeTask.Access.SqlServer
             return await _cardContext.SaveChangesAsync();
         }
 
-        public async Task<int> DeleteListOFCards(IEnumerable<int> listOfId)
+        public async Task<int> DeleteListOFCardsAsync(IEnumerable<int> listOfId)
         {
             listOfId = listOfId ?? throw new ArgumentNullException(nameof(listOfId), "List of id is null");
 
@@ -49,14 +58,16 @@ namespace TexodeTask.Access.SqlServer
             return await _cardContext.Cards.FindAsync(id);
         }
 
-        public async Task<IEnumerable<CardEntity>> SortCardsByName()
+        public async Task<IEnumerable<CardEntity>> SortCardsByNameAsync()
             => await _cardContext.Cards.OrderBy(card => card.Name).ToListAsync();
 
-        public async Task<int> UpdateCard(CardEntity cardEntity)
+        public async Task<int> UpdateCardAsync(CardEntity cardEntity)
         {
             cardEntity = cardEntity ?? throw new ArgumentNullException(nameof(cardEntity), "Card is null");
 
             var card = await _cardContext.Cards.FindAsync(cardEntity.Id);
+
+            card = card ?? throw new ArgumentNullException(nameof(cardEntity), "Not found");
 
             card.Name = cardEntity.Name;
             card.Photo = cardEntity.Photo;
