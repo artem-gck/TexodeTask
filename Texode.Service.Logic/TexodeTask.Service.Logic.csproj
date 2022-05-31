@@ -1,12 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Texode.Service.Logic\TexodeTask.Service.Logic.csproj" />
-    <ProjectReference Include="..\TexodeTask.Access.SqlServer\TexodeTask.Access.SqlServer.csproj" />
     <ProjectReference Include="..\TexodeTask.Access\TexodeTask.Access.csproj" />
     <ProjectReference Include="..\TexodeTask.Service\TexodeTask.Service.csproj" />
   </ItemGroup>

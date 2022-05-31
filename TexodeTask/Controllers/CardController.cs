@@ -6,9 +6,9 @@ namespace TexodeTask.Controllers
     [Route("api/cards")]
     public class CardController : Controller
     {
-        public IActionResult Index()
+        public ActionResult<string> Index()
         {
-            return View();
+            return "Hello";
         }
     }
 }

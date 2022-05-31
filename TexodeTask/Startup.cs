@@ -8,6 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TexodeTask.Access;
+using TexodeTask.Access.SqlServer;
+using TexodeTask.Service;
+using TexodeTask.Service.Logic;
 
 namespace TexodeTask
 {
@@ -24,6 +28,11 @@ namespace TexodeTask
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvc();
+
+
+            services.AddTransient<ICardAccess, CardAccess>();
+            services.AddTransient<ICardService, CardService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
