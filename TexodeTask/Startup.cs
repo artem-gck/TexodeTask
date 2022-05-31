@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TexodeTask.Access;
+using TexodeTask.Access.Entity.Context;
 using TexodeTask.Access.SqlServer;
 using TexodeTask.Service;
 using TexodeTask.Service.Logic;
@@ -29,8 +31,8 @@ namespace TexodeTask
         {
             services.AddControllersWithViews();
             services.AddMvc();
-
-
+            
+            services.AddDbContext<CardContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<ICardAccess, CardAccess>();
             services.AddTransient<ICardService, CardService>();
         }
