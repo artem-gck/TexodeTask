@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TexodeTask.Access;
-using TexodeTask.Access.Entity.Context;
-using TexodeTask.Access.SqlServer;
+using TexodeTask.Access.File;
 using TexodeTask.Service;
 using TexodeTask.Service.Logic;
 
@@ -23,10 +21,10 @@ namespace TexodeTask
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
-            services.AddDbContext<CardContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<ICardAccess, CardAccess>();
-            services.AddTransient<ICardService, CardService>();
+
+            services.AddSingleton(path => Configuration.GetSection("pathOfFile").Value);
+            services.AddScoped<ICardAccess, CardAccess>();
+            services.AddScoped<ICardService, CardService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

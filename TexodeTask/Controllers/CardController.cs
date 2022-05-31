@@ -53,6 +53,9 @@ namespace TexodeTask.Controllers
             {
                 var card = await _cardService.GetCardAsync(id);
 
+                if (card is null)
+                    return NotFound();
+
                 return Json(card);
             }
             catch (Exception e)

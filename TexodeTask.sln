@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexodeTask.Service", "Texod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexodeTask.Access", "TexodeTask.Access\TexodeTask.Access.csproj", "{9030FE59-7677-4DE5-A979-169EBADA9346}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexodeTask.Access.SqlServer", "TexodeTask.Access.SqlServer\TexodeTask.Access.SqlServer.csproj", "{4E26CAF5-311C-43DB-87AD-E69C4F7840A1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexodeTask.Service.Logic", "TexodeTask.Service.Logic\TexodeTask.Service.Logic.csproj", "{DC3EC14D-B73E-45FE-B8F5-3CE7AE6B694D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexodeTask.Access.File", "TexodeTask.Access.File\TexodeTask.Access.File.csproj", "{68E72ADC-E505-43E6-9548-C99A237CC168}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +31,14 @@ Global
 		{9030FE59-7677-4DE5-A979-169EBADA9346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9030FE59-7677-4DE5-A979-169EBADA9346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9030FE59-7677-4DE5-A979-169EBADA9346}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E26CAF5-311C-43DB-87AD-E69C4F7840A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E26CAF5-311C-43DB-87AD-E69C4F7840A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E26CAF5-311C-43DB-87AD-E69C4F7840A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E26CAF5-311C-43DB-87AD-E69C4F7840A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC3EC14D-B73E-45FE-B8F5-3CE7AE6B694D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC3EC14D-B73E-45FE-B8F5-3CE7AE6B694D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC3EC14D-B73E-45FE-B8F5-3CE7AE6B694D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC3EC14D-B73E-45FE-B8F5-3CE7AE6B694D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68E72ADC-E505-43E6-9548-C99A237CC168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E72ADC-E505-43E6-9548-C99A237CC168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E72ADC-E505-43E6-9548-C99A237CC168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E72ADC-E505-43E6-9548-C99A237CC168}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
