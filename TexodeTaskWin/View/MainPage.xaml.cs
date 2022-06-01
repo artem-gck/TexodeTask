@@ -14,20 +14,20 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TexodeTaskWin.Service;
 using TexodeTaskWin.Service.Model;
-using TexodeTaskWin.View;
+using TexodeTaskWin.ViewModel;
 
-namespace TexodeTaskWin
+namespace TexodeTaskWin.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainPage : Page
     {
-        public MainWindow(ICardService cardService)
+        public MainPage(ICardService cardService, MainWindow mainWindow)
         {
             InitializeComponent();
 
-            frmScreen.Navigate(new MainPage(cardService, this));
+            DataContext = new MainPageViewModel(cardService, this, mainWindow);
         }
     }
 }

@@ -12,22 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TexodeTaskWin.Service;
-using TexodeTaskWin.Service.Model;
-using TexodeTaskWin.View;
 
-namespace TexodeTaskWin
+namespace TexodeTaskWin.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AddPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddPage : Page
     {
-        public MainWindow(ICardService cardService)
+        public AddPage()
         {
             InitializeComponent();
-
-            frmScreen.Navigate(new MainPage(cardService, this));
         }
     }
 }

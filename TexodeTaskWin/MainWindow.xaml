@@ -17,6 +17,7 @@
     </Window.Background>
 
     <Grid>
-        
+        <Frame Name="frmScreen" 
+               NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
