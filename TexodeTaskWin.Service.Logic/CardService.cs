@@ -19,11 +19,14 @@ namespace TexodeTaskWin.Service.Logic
 
         public async Task<int> AddCardAsync(CardModel card)
         {
-            var response = await _httpClient.PostAsJsonAsync($"cards", card);
-            var responseString = await response.Content.ReadAsStringAsync();
-            var idOfDeletedCard = int.Parse(responseString);
+            var request = new HttpRequestMessage(HttpMethod.Post, "cards");
+            request.Content = new StringContent(JsonConvert.SerializeObject(card), Encoding.UTF8, "application/json");
 
-            return idOfDeletedCard;
+            var response = await _httpClient.SendAsync(request);
+            var responseString = await response.Content.ReadAsStringAsync();
+            var idOfAddedCard = int.Parse(responseString);
+
+            return idOfAddedCard;
         }
 
         public async Task<int> DeleteCardAsync(int id)
@@ -56,9 +59,13 @@ namespace TexodeTaskWin.Service.Logic
             return cards;
         }
 
-        public Task<CardModel> GetCardAsync(int id)
+        public async Task<CardModel> GetCardAsync(int id)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync($"cards/{id}");
+            var responseString = await response.Content.ReadAsStringAsync();
+            var card = JsonConvert.DeserializeObject<CardModel>(responseString);
+
+            return card;
         }
 
         public async Task<IEnumerable<CardModel>> SortCardsByNameAsync()
@@ -70,9 +77,16 @@ namespace TexodeTaskWin.Service.Logic
             return cards;
         }
 
-        public Task<int> UpdateCardAsync(CardModel card)
+        public async Task<int> UpdateCardAsync(CardModel card)
         {
-            throw new NotImplementedException();
+            var request = new HttpRequestMessage(HttpMethod.Put, "cards");
+            request.Content = new StringContent(JsonConvert.SerializeObject(card), Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.SendAsync(request);
+            var responseString = await response.Content.ReadAsStringAsync();
+            var idOfUpdatedCard = int.Parse(responseString);
+
+            return idOfUpdatedCard;
         }
     }
 }

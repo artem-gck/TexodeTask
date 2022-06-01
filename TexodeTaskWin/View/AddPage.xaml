@@ -9,6 +9,51 @@
       Title="AddPage">
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition />
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" 
+                Grid.Column="0"
+                Content="Назад"
+                Command="{Binding CancelCommand}"/>
+        <TextBlock Grid.Row="0" 
+                   Grid.Column="1"
+                   Text="Добавить товар"/>
+        <Grid Grid.Row="1" 
+              Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="500"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid  DataContext="{Binding Card}">
+                <Image Grid.Row="0"
+                   Height="400"
+                   Width="400" 
+                   Source="{Binding Path=Photo}"/>
+            </Grid>
+            <Button Grid.Row="1" 
+                    Content="Добавить"
+                    Command="{Binding AddPhotoCommand}"/>
+        </Grid>
+        <Grid Grid.Row="1" 
+              Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Вводите название"/>
+            <StackPanel Grid.Row="1" >
+                <Grid DataContext="{Binding Card}">
+                    <TextBox Text="{Binding Path=Name}"/>
+                </Grid>
+                <Button Content="Сохранить"
+                        Command="{Binding SaveCommand}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

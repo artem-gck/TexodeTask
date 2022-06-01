@@ -70,7 +70,7 @@ namespace TexodeTaskWin.ViewModel
             {
                 return addViewCommand ?? (addViewCommand = new RelayCommand(obj =>
                 {
-                    _mainWindow.frmScreen.Navigate(new AddPage());
+                    _mainWindow.frmScreen.Navigate(new AddPage(_cardService, _mainWindow));
                 }));
             }
         }
@@ -131,7 +131,6 @@ namespace TexodeTaskWin.ViewModel
                 image.CacheOption = BitmapCacheOption.OnLoad;
                 image.UriSource = null;
                 image.StreamSource = mem;
-                image.Rotation = Rotation.Rotate90;
                 image.EndInit();
             }
             image.Freeze();

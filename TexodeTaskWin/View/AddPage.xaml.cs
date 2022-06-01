@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TexodeTaskWin.Service;
+using TexodeTaskWin.ViewModel;
 
 namespace TexodeTaskWin.View
 {
@@ -20,9 +22,11 @@ namespace TexodeTaskWin.View
     /// </summary>
     public partial class AddPage : Page
     {
-        public AddPage()
+        public AddPage(ICardService cardService, MainWindow mainWindow)
         {
             InitializeComponent();
+
+            DataContext = new AddPageViewModel(cardService, mainWindow);
         }
     }
 }

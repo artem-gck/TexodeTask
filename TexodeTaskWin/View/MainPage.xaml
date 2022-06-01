@@ -85,6 +85,35 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="{x:Type Button}"
+               x:Key="UnSortButton">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Regular"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="40, 0, 0, 0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border BorderThickness="0"
+                                CornerRadius="10"
+                                Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Name="content"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     
     <Grid>
@@ -101,7 +130,7 @@
             <Button DockPanel.Dock="Left" 
                     Content="Отменить сортировку"
                     Command="{Binding UnSortCommand}"
-                    Style="{StaticResource SortButton}"/>
+                    Style="{StaticResource UnSortButton}"/>
             <Button DockPanel.Dock="Right" 
                     Content="Удалить"
                     Command="{Binding DeleteCommand}"
