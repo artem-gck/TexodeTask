@@ -5,7 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TexodeTaskWin"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Title="TexodeTask" Height="720" Width="1280">
+
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0.15,0" EndPoint="0.85,1">
+            <GradientStop Color="#232F5A" Offset="0.0" />
+            <GradientStop Color="#274D71" Offset="1.0" />
+        </LinearGradientBrush>
+    </Window.Background>
+
     <Grid>
         
     </Grid>

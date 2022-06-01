@@ -37,9 +37,9 @@ namespace TexodeTaskWin
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            services.AddScoped(sp => httpClient);
             services.AddSingleton<MainWindow>();
             services.AddScoped<ICardService, CardService>();
+            services.AddScoped(sp => httpClient);
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
