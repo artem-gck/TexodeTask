@@ -35,7 +35,7 @@
             <Setter Property="Height" Value="50"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Regular"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="Margin" Value="0, 0, 40, 0"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -85,35 +85,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <Style TargetType="{x:Type Button}"
-               x:Key="UnSortButton">
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="Regular"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Margin" Value="40, 0, 0, 0"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border BorderThickness="0"
-                                CornerRadius="10"
-                                Background="{TemplateBinding Background}">
-                            <Grid>
-                                <ContentPresenter HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  Name="content"/>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Page.Resources>
     
     <Grid>
@@ -130,17 +101,17 @@
             <Button DockPanel.Dock="Left" 
                     Content="Отменить сортировку"
                     Command="{Binding UnSortCommand}"
-                    Style="{StaticResource UnSortButton}"/>
+                    Style="{StaticResource SortButton}"/>
             <Button DockPanel.Dock="Right" 
                     Content="Удалить"
                     Command="{Binding DeleteCommand}"
                     Style="{StaticResource ControlButton}"
-                    Background="#BEBEBE"/>
+                    Background="#BB4C4C"/>
             <Button DockPanel.Dock="Right" 
                     Content="Добавить"
                     Command="{Binding AddViewCommand}"
                     Style="{StaticResource ControlButton}"
-                    Background="#FFE8AC"/>
+                    Background="#467BBF"/>
         </DockPanel>
         <ListBox Name="lbxCards"
                  ItemsSource="{Binding Cards}" 

@@ -53,8 +53,8 @@ namespace TexodeTask.Access.File
             _ = listOfId ?? throw new ArgumentNullException(nameof(listOfId), "List of id is null");
 
             var cards = await ReadCardsFromFile();
-            cards = cards.Where(card => listOfId.Contains(card.Id)).ToList();
-
+            cards.RemoveAll(card => listOfId.Contains(card.Id));
+            
             await WriteCardsToFile(cards);
 
             return listOfId.Count();

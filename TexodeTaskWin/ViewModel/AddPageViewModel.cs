@@ -66,6 +66,7 @@ namespace TexodeTaskWin.ViewModel
                 return saveCommand ?? (saveCommand = new RelayCommand(obj =>
                 {
                     _ = Task.Run(() => _cardService.AddCardAsync(MapCardModel(card))).Result;
+                    Card = new Card();
                 }));
             }
         }
