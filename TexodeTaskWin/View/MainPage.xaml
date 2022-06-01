@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TexodeTaskWin.View"
+      xmlns:local="clr-namespace:TexodeTaskWin.View" 
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="MainPage">
@@ -59,14 +59,14 @@
 
         <Style TargetType="{x:Type Button}"
                x:Key="SortButton">
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="210"/>
+            <Setter Property="Height" Value="30"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Regular"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Margin" Value="40, 0, 0, 0"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="35, 0, 0, 0"/>
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
@@ -93,20 +93,39 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
-            <Button Name="btnSort"
-                    DockPanel.Dock="Left" 
-                    Content="Сортировать"
-                    Command="{Binding SortCommand}"
-                    Style="{StaticResource SortButton}"/>
-            <Button DockPanel.Dock="Left" 
-                    Content="Отменить сортировку"
-                    Command="{Binding UnSortCommand}"
-                    Style="{StaticResource SortButton}"/>
+            <Grid DockPanel.Dock="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0"
+                           Margin="0, 20, 0, 0">
+                    <Button Name="btnSort"
+                            DockPanel.Dock="Left" 
+                            Content="Сортировать"
+                            Command="{Binding SortCommand}"
+                            Style="{StaticResource SortButton}"/>
+                    <Button DockPanel.Dock="Left" 
+                            Content="Отменить сортировку"
+                            Command="{Binding UnSortCommand}"
+                            Style="{StaticResource SortButton}"/>
+                </DockPanel>
+                <TextBlock Grid.Row="1"
+                           Margin="35, 0, 0, 0"
+                           Text="{Binding ErrorMassage}"
+                           FontSize="16"
+                           Foreground="#BB4C4C"/>
+            </Grid>
             <Button DockPanel.Dock="Right" 
                     Content="Удалить"
                     Command="{Binding DeleteCommand}"
                     Style="{StaticResource ControlButton}"
                     Background="#BB4C4C"/>
+            <Button DockPanel.Dock="Right" 
+                    Content="Изменить"
+                    Command="{Binding UpdateViewCommand}"
+                    Style="{StaticResource ControlButton}"
+                    Background="#467BBF"/>
             <Button DockPanel.Dock="Right" 
                     Content="Добавить"
                     Command="{Binding AddViewCommand}"

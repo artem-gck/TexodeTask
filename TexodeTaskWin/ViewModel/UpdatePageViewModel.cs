@@ -16,7 +16,7 @@ using TexodeTaskWin.ViewModel.Command;
 
 namespace TexodeTaskWin.ViewModel
 {
-    public class AddPageViewModel : INotifyPropertyChanged
+    public class UpdatePageViewModel : INotifyPropertyChanged
     {
         private readonly ICardService _cardService;
         private MainWindow _mainWindow;
@@ -31,7 +31,7 @@ namespace TexodeTaskWin.ViewModel
         public Card Card
         {
             get => card;
-            set 
+            set
             {
                 card = value;
                 OnPropertyChanged("Card");
@@ -83,18 +83,24 @@ namespace TexodeTaskWin.ViewModel
                         return;
                     }
 
-                    _ = Task.Run(() => _cardService.AddCardAsync(MapCardModel(card))).Result;
-                    Card = new Card();
+                    _ = Task.Run(() => _cardService.UpdateCardAsync(MapCardModel(card))).Result;
+                    _mainWindow.frmScreen.Navigate(new MainPage(_cardService, _mainWindow));
                 }));
             }
         }
 
-        public AddPageViewModel(ICardService cardService, MainWindow mainWindow)
+        public UpdatePageViewModel(ICardService cardService, MainWindow mainWindow, int id)
         {
             _cardService = cardService;
             _mainWindow = mainWindow;
 
-            card = new Card();
+            var cardModel = Task.Run(() => cardService.GetCardAsync(id)).Result;
+            Card = new Card()
+            {
+                Id = cardModel.Id,
+                Name = cardModel.Name,
+                Photo = ConvertImage(cardModel.Photo)
+            };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -116,7 +122,7 @@ namespace TexodeTaskWin.ViewModel
             if (result == true)
             {
                 var file = dialog.OpenFile();
-                
+
                 byte[] buffer = new byte[16 * 1024];
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -166,9 +172,10 @@ namespace TexodeTaskWin.ViewModel
 
         private CardModel MapCardModel(Card card)
             => new CardModel()
-                {
-                    Name = card.Name,
-                    Photo = ConvertImageToArray(card.Photo),
-                };
+            {
+                Id = card.Id,
+                Name = card.Name,
+                Photo = ConvertImageToArray(card.Photo),
+            };
     }
 }

@@ -20,6 +20,7 @@ namespace TexodeTaskWin.ViewModel
     public class MainPageViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<Card> сards;
+        private string errorMassage;
 
         private readonly ICardService _cardService;
         private MainPage _mainPage;
@@ -28,6 +29,7 @@ namespace TexodeTaskWin.ViewModel
         private RelayCommand sortCommand;
         private RelayCommand unSortCommand;
         private RelayCommand addViewCommand;
+        private RelayCommand updateViewCommand;
         private RelayCommand deleteCommand;
 
         public ObservableCollection<Card> Cards
@@ -40,12 +42,23 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        public string ErrorMassage
+        {
+            get => errorMassage;
+            set
+            {
+                errorMassage = value;
+                OnPropertyChanged("ErrorMassage");
+            }
+        }
+
         public RelayCommand SortCommand
         {
             get
             {
                 return sortCommand ?? (sortCommand = new RelayCommand(obj =>
                 {
+                    ErrorMassage = string.Empty;
                     Cards = MapCardsModelToCards(Task.Run(() => _cardService.SortCardsByNameAsync()).Result);
                     _mainPage.btnSort.Background = new SolidColorBrush(Color.FromRgb(58, 61, 121));
                 }));
@@ -58,6 +71,7 @@ namespace TexodeTaskWin.ViewModel
             {
                 return unSortCommand ?? (unSortCommand = new RelayCommand(obj =>
                   {
+                      ErrorMassage = string.Empty;
                       Cards = MapCardsModelToCards(Task.Run(() => _cardService.GetAllCardsAsync()).Result);
                       _mainPage.btnSort.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
                   }));
@@ -75,6 +89,23 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        public RelayCommand UpdateViewCommand
+        {
+            get
+            {
+                return updateViewCommand ?? (updateViewCommand = new RelayCommand(obj =>
+                {
+                    if (сards.Where(card => card.IsSelected).Count() != 1)
+                    {
+                        ErrorMassage = "*Выберите 1 карточку";
+                        return;
+                    }
+
+                    _mainWindow.frmScreen.Navigate(new UpdatePage(_cardService, _mainWindow, Cards.Where(card => card.IsSelected).FirstOrDefault().Id));
+                }));
+            }
+        }
+
         public RelayCommand DeleteCommand
         {
             get
@@ -84,7 +115,10 @@ namespace TexodeTaskWin.ViewModel
                     var cardsIdForDelete = Cards.Where(card => card.IsSelected).Select(card => card.Id).ToList();
 
                     if (cardsIdForDelete.Count() == 0)
+                    {
+                        ErrorMassage = "*Выберите карточки";
                         return;
+                    }
                     else if (cardsIdForDelete.Count() > 1)
                         _ = Task.Run(() => _cardService.DeleteListOFCardsAsync(cardsIdForDelete)).Result;
                     else

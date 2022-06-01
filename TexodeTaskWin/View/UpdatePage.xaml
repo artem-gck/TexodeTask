@@ -1,4 +1,4 @@
-﻿<Page x:Class="TexodeTaskWin.View.AddPage"
+﻿<Page x:Class="TexodeTaskWin.View.UpdatePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:TexodeTaskWin.View"
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
-      Title="AddPage">
+      Title="UpdatePage">
 
     <Page.Resources>
         <Style TargetType="{x:Type TextBlock}"
@@ -110,8 +110,8 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition />
+            <RowDefinition Height="100"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Button Grid.Row="0" 
                 Grid.Column="0"
@@ -121,7 +121,7 @@
                 HorizontalAlignment="Left"/>
         <TextBlock Grid.Row="0" 
                    Grid.Column="1"
-                   Text="Добавить товар"
+                   Text="Изменить товар"
                    VerticalAlignment="Center"
                    FontSize="42"
                    Style="{StaticResource Text}"/>
