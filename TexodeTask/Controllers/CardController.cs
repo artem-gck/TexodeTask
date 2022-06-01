@@ -7,15 +7,28 @@ using TexodeTask.Service.Model;
 
 namespace TexodeTask.Controllers
 {
+    /// <summary>
+    /// Controller for cards.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [ApiController]
     [Route("api/cards/")]
     public class CardController : Controller
     {
         private readonly ICardService _cardService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CardController"/> class.
+        /// </summary>
+        /// <param name="cardService">The card service.</param>
         public CardController(ICardService cardService)
             => _cardService = cardService;
 
+        /// <summary>
+        /// Adds the card asynchronous.
+        /// </summary>
+        /// <param name="card">The card.</param>
+        /// <returns>Id of added card.</returns>
         [HttpPost]
         public async Task<IActionResult> AddCardAsync(Card card)
         {
@@ -31,6 +44,10 @@ namespace TexodeTask.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets all cards asynchronous.
+        /// </summary>
+        /// <returns>All cards.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Card>>> GetAllCardsAsync()
         {
@@ -46,6 +63,11 @@ namespace TexodeTask.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the card asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Card by id.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Card>> GetCardAsync(int id)
         {
@@ -64,6 +86,11 @@ namespace TexodeTask.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the card asynchronous.
+        /// </summary>
+        /// <param name="card">The card.</param>
+        /// <returns>Id of updated card.</returns>
         [HttpPut]
         public async Task<IActionResult> UpdateCardAsync(Card card)
         {
@@ -79,6 +106,11 @@ namespace TexodeTask.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes the card asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Id of deleted card.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCardAsync(int id)
         {
@@ -94,6 +126,11 @@ namespace TexodeTask.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes the list of cards asynchronous.
+        /// </summary>
+        /// <param name="listOfId">The list of identifier.</param>
+        /// <returns>Number of deleted cards.</returns>
         [HttpDelete]
         public async Task<IActionResult> DeleteListOFCardsAsync(IEnumerable<int> listOfId)
         {
@@ -109,6 +146,10 @@ namespace TexodeTask.Controllers
             }
         }
 
+        /// <summary>
+        /// Sorts the cards by name asynchronous.
+        /// </summary>
+        /// <returns>Sorted cards.</returns>
         [HttpGet("sort")]
         public async Task<ActionResult<IEnumerable<Card>>> SortCardsByNameAsync()
         {

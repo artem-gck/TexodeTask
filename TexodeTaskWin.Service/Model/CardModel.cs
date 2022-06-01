@@ -1,17 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TexodeTaskWin.Service.Model
+﻿namespace TexodeTaskWin.Service.Model
 {
+    /// <summary>
+    /// Card model.
+    /// </summary>
     public class CardModel
     {
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the photo.
+        /// </summary>
+        /// <value>
+        /// The photo.
+        /// </value>
         public byte[] Photo { get; set; }
     }
 }

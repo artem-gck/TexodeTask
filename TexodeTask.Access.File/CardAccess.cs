@@ -8,13 +8,27 @@ using TexodeTask.Access.Entity;
 
 namespace TexodeTask.Access.File
 {
+    /// <summary>
+    /// Access to file source.
+    /// </summary>
+    /// <seealso cref="TexodeTask.Access.ICardAccess" />
     public class CardAccess : ICardAccess
     {
         private readonly string _path;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CardAccess"/> class.
+        /// </summary>
+        /// <param name="path">The path.</param>
         public CardAccess(string path) 
             => _path = path;
 
+        /// <summary>
+        /// Adds the card asynchronous.
+        /// </summary>
+        /// <param name="cardEntity">The card entity.</param>
+        /// <returns>Id of added card.</returns>
+        /// <exception cref="System.ArgumentNullException">cardEntity - Card is null</exception>
         public async Task<int> AddCardAsync(CardEntity cardEntity)
         {
             _ = cardEntity ?? throw new ArgumentNullException(nameof(cardEntity), "Card is null");
@@ -32,6 +46,16 @@ namespace TexodeTask.Access.File
             return cardEntity.Id;
         }
 
+        /// <summary>
+        /// Deletes the card asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Id of deleted card.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// id
+        /// or
+        /// cardForDelete - Card does not exist
+        /// </exception>
         public async Task<int> DeleteCardAsync(int id)
         {
             _ = id >= 0 ? id : throw new ArgumentNullException(nameof(id));
@@ -48,6 +72,12 @@ namespace TexodeTask.Access.File
             return id;
         }
 
+        /// <summary>
+        /// Deletes the list of cards asynchronous.
+        /// </summary>
+        /// <param name="listOfId">The list of identifier.</param>
+        /// <returns>Count of deleted cards.</returns>
+        /// <exception cref="System.ArgumentNullException">listOfId - List of id is null</exception>
         public async Task<int> DeleteListOFCardsAsync(IEnumerable<int> listOfId)
         {
             _ = listOfId ?? throw new ArgumentNullException(nameof(listOfId), "List of id is null");
@@ -60,9 +90,23 @@ namespace TexodeTask.Access.File
             return listOfId.Count();
         }
 
+        /// <summary>
+        /// Gets all cards asynchronous.
+        /// </summary>
+        /// <returns>All cards.</returns>
         public async Task<IEnumerable<CardEntity>> GetAllCardsAsync()
             => await ReadCardsFromFile();
 
+        /// <summary>
+        /// Gets the card asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Card by id.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// id
+        /// or
+        /// card - Card does not exist
+        /// </exception>
         public async Task<CardEntity> GetCardAsync(int id)
         {
             _ = id >= 0 ? id : throw new ArgumentNullException(nameof(id));
@@ -74,9 +118,23 @@ namespace TexodeTask.Access.File
             return card;
         }
 
+        /// <summary>
+        /// Sorts the cards by name asynchronous.
+        /// </summary>
+        /// <returns>Sorted cards.</returns>
         public async Task<IEnumerable<CardEntity>> SortCardsByNameAsync()
             => (await ReadCardsFromFile()).OrderBy(card => card.Name);
 
+        /// <summary>
+        /// Updates the card asynchronous.
+        /// </summary>
+        /// <param name="cardEntity">The card entity.</param>
+        /// <returns>Id of updated card.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// cardEntity - Card is null
+        /// or
+        /// card - Card does not exist
+        /// </exception>
         public async Task<int> UpdateCardAsync(CardEntity cardEntity)
         {
             _ = cardEntity ?? throw new ArgumentNullException(nameof(cardEntity), "Card is null");

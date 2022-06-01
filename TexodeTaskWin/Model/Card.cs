@@ -9,6 +9,10 @@ using System.Windows.Media.Imaging;
 
 namespace TexodeTaskWin.Model
 {
+    /// <summary>
+    /// Card model.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public class Card : INotifyPropertyChanged
     {
         private bool _isSelected;
@@ -16,6 +20,12 @@ namespace TexodeTaskWin.Model
         private string name;
         private BitmapImage photo;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is selected.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is selected; otherwise, <c>false</c>.
+        /// </value>
         public bool IsSelected
         {
             get { return _isSelected; }
@@ -25,6 +35,13 @@ namespace TexodeTaskWin.Model
                 OnPropertyChanged("IsSelected");
             }
         }
+
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public int Id { 
             get => id; 
             set
@@ -33,6 +50,13 @@ namespace TexodeTaskWin.Model
                 OnPropertyChanged("Id");
             } 
         }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public string Name { 
             get => name; 
             set
@@ -41,6 +65,13 @@ namespace TexodeTaskWin.Model
                 OnPropertyChanged("Name");
             }
         }
+
+        /// <summary>
+        /// Gets or sets the photo.
+        /// </summary>
+        /// <value>
+        /// The photo.
+        /// </value>
         public BitmapImage Photo { 
             get => photo;
             set
@@ -50,7 +81,15 @@ namespace TexodeTaskWin.Model
             }
         }
 
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Called when [property changed].
+        /// </summary>
+        /// <param name="prop">The property.</param>
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

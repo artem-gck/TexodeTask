@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -17,6 +15,10 @@ using TexodeTaskWin.ViewModel.Command;
 
 namespace TexodeTaskWin.ViewModel
 {
+    /// <summary>
+    /// ViewModel for main page.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public class MainPageViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<Card> сards;
@@ -32,6 +34,12 @@ namespace TexodeTaskWin.ViewModel
         private RelayCommand updateViewCommand;
         private RelayCommand deleteCommand;
 
+        /// <summary>
+        /// Gets or sets the cards.
+        /// </summary>
+        /// <value>
+        /// The cards.
+        /// </value>
         public ObservableCollection<Card> Cards
         {
             get => сards;
@@ -42,6 +50,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets or sets the error massage.
+        /// </summary>
+        /// <value>
+        /// The error massage.
+        /// </value>
         public string ErrorMassage
         {
             get => errorMassage;
@@ -52,6 +66,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the sort command.
+        /// </summary>
+        /// <value>
+        /// The sort command.
+        /// </value>
         public RelayCommand SortCommand
         {
             get
@@ -65,6 +85,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the un sort command.
+        /// </summary>
+        /// <value>
+        /// The un sort command.
+        /// </value>
         public RelayCommand UnSortCommand
         {
             get
@@ -78,6 +104,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the add view command.
+        /// </summary>
+        /// <value>
+        /// The add view command.
+        /// </value>
         public RelayCommand AddViewCommand
         {
             get
@@ -89,6 +121,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the update view command.
+        /// </summary>
+        /// <value>
+        /// The update view command.
+        /// </value>
         public RelayCommand UpdateViewCommand
         {
             get
@@ -106,6 +144,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the delete command.
+        /// </summary>
+        /// <value>
+        /// The delete command.
+        /// </value>
         public RelayCommand DeleteCommand
         {
             get
@@ -129,6 +173,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainPageViewModel"/> class.
+        /// </summary>
+        /// <param name="cardService">The card service.</param>
+        /// <param name="mainPage">The main page.</param>
+        /// <param name="mainWindow">The main window.</param>
         public MainPageViewModel(ICardService cardService, MainPage mainPage, MainWindow mainWindow)
         {
             Cards = MapCardsModelToCards(Task.Run(() => cardService.GetAllCardsAsync()).Result);
@@ -138,7 +188,15 @@ namespace TexodeTaskWin.ViewModel
             _mainWindow = mainWindow;
         }
 
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Called when [property changed].
+        /// </summary>
+        /// <param name="prop">The property.</param>
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
@@ -157,6 +215,7 @@ namespace TexodeTaskWin.ViewModel
         {
             if (imageData == null || imageData.Length == 0) return null;
             var image = new BitmapImage();
+
             using (var mem = new MemoryStream(imageData))
             {
                 mem.Position = 0;
@@ -167,7 +226,9 @@ namespace TexodeTaskWin.ViewModel
                 image.StreamSource = mem;
                 image.EndInit();
             }
+
             image.Freeze();
+            
             return image;
         }
     }

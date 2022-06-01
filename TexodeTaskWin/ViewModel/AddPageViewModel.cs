@@ -1,11 +1,7 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using TexodeTaskWin.Model;
@@ -16,6 +12,10 @@ using TexodeTaskWin.ViewModel.Command;
 
 namespace TexodeTaskWin.ViewModel
 {
+    /// <summary>
+    /// ViewModel of adding page.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public class AddPageViewModel : INotifyPropertyChanged
     {
         private readonly ICardService _cardService;
@@ -28,6 +28,12 @@ namespace TexodeTaskWin.ViewModel
         private RelayCommand cancelCommand;
         private RelayCommand saveCommand;
 
+        /// <summary>
+        /// Gets or sets the card.
+        /// </summary>
+        /// <value>
+        /// The card.
+        /// </value>
         public Card Card
         {
             get => card;
@@ -38,6 +44,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets or sets the error massage.
+        /// </summary>
+        /// <value>
+        /// The error massage.
+        /// </value>
         public string ErrorMassage
         {
             get => errorMassage;
@@ -48,6 +60,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the add photo command.
+        /// </summary>
+        /// <value>
+        /// The add photo command.
+        /// </value>
         public RelayCommand AddPhotoCommand
         {
             get
@@ -60,6 +78,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the cancel command.
+        /// </summary>
+        /// <value>
+        /// The cancel command.
+        /// </value>
         public RelayCommand CancelCommand
         {
             get
@@ -71,6 +95,12 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the save command.
+        /// </summary>
+        /// <value>
+        /// The save command.
+        /// </value>
         public RelayCommand SaveCommand
         {
             get
@@ -89,6 +119,11 @@ namespace TexodeTaskWin.ViewModel
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddPageViewModel"/> class.
+        /// </summary>
+        /// <param name="cardService">The card service.</param>
+        /// <param name="mainWindow">The main window.</param>
         public AddPageViewModel(ICardService cardService, MainWindow mainWindow)
         {
             _cardService = cardService;
@@ -97,7 +132,15 @@ namespace TexodeTaskWin.ViewModel
             card = new Card();
         }
 
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Called when [property changed].
+        /// </summary>
+        /// <param name="prop">The property.</param>
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
@@ -109,7 +152,7 @@ namespace TexodeTaskWin.ViewModel
             byte[] data = null;
             var dialog = new OpenFileDialog();
             dialog.DefaultExt = ".jpg";
-            dialog.Filter = "Text documents (.jpg)|*.jpg";
+            dialog.Filter = "Image Files (*.bmp;*.png;*.jpg)|*.bmp;*.png;*.jpg";
 
             bool? result = dialog.ShowDialog();
 
@@ -117,8 +160,8 @@ namespace TexodeTaskWin.ViewModel
             {
                 var file = dialog.OpenFile();
                 
-                byte[] buffer = new byte[16 * 1024];
-                using (MemoryStream ms = new MemoryStream())
+                var buffer = new byte[16 * 1024];
+                using (var ms = new MemoryStream())
                 {
                     int read;
                     while ((read = file.Read(buffer, 0, buffer.Length)) > 0)
@@ -134,8 +177,11 @@ namespace TexodeTaskWin.ViewModel
 
         private static BitmapImage ConvertImage(byte[] imageData)
         {
-            if (imageData == null || imageData.Length == 0) return null;
+            if (imageData == null || imageData.Length == 0) 
+                return null;
+
             var image = new BitmapImage();
+
             using (var mem = new MemoryStream(imageData))
             {
                 mem.Position = 0;
@@ -146,16 +192,19 @@ namespace TexodeTaskWin.ViewModel
                 image.StreamSource = mem;
                 image.EndInit();
             }
+
             image.Freeze();
+
             return image;
         }
 
         private static byte[] ConvertImageToArray(BitmapImage image)
         {
             byte[] data;
-            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            var encoder = new JpegBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(image));
-            using (MemoryStream ms = new MemoryStream())
+
+            using (var ms = new MemoryStream())
             {
                 encoder.Save(ms);
                 data = ms.ToArray();

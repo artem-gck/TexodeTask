@@ -1,8 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +7,28 @@ using TexodeTaskWin.Service.Model;
 
 namespace TexodeTaskWin.Service.Logic
 {
+    /// <summary>
+    /// Business logic for working with cards.
+    /// </summary>
+    /// <seealso cref="TexodeTaskWin.Service.ICardService" />
     public class CardService : ICardService
     {
         private readonly HttpClient _httpClient;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CardService"/> class.
+        /// </summary>
+        /// <param name="httpClient">The HTTP client.</param>
         public CardService(HttpClient httpClient)
             => _httpClient = httpClient;
 
+        /// <summary>
+        /// Adds the card asynchronous.
+        /// </summary>
+        /// <param name="card">The card.</param>
+        /// <returns>
+        /// Id of added card.
+        /// </returns>
         public async Task<int> AddCardAsync(CardModel card)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "cards");
@@ -29,6 +41,13 @@ namespace TexodeTaskWin.Service.Logic
             return idOfAddedCard;
         }
 
+        /// <summary>
+        /// Deletes the card asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// Id of deleted card.
+        /// </returns>
         public async Task<int> DeleteCardAsync(int id)
         {
             var response = await _httpClient.DeleteAsync($"cards/{id}");
@@ -38,6 +57,13 @@ namespace TexodeTaskWin.Service.Logic
             return idOfDeletedCard;
         }
 
+        /// <summary>
+        /// Deletes the list of cards asynchronous.
+        /// </summary>
+        /// <param name="listOfId">The list of identifier.</param>
+        /// <returns>
+        /// Number of deleted cards.
+        /// </returns>
         public async Task<int> DeleteListOFCardsAsync(IEnumerable<int> listOfId)
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, "cards");
@@ -50,6 +76,12 @@ namespace TexodeTaskWin.Service.Logic
             return idOfDeletedCard;
         }
 
+        /// <summary>
+        /// Gets all cards asynchronous.
+        /// </summary>
+        /// <returns>
+        /// All cards.
+        /// </returns>
         public async Task<IEnumerable<CardModel>> GetAllCardsAsync()
         {
             var response = await _httpClient.GetAsync("cards");
@@ -59,6 +91,13 @@ namespace TexodeTaskWin.Service.Logic
             return cards;
         }
 
+        /// <summary>
+        /// Gets the card asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// Card by id.
+        /// </returns>
         public async Task<CardModel> GetCardAsync(int id)
         {
             var response = await _httpClient.GetAsync($"cards/{id}");
@@ -68,6 +107,12 @@ namespace TexodeTaskWin.Service.Logic
             return card;
         }
 
+        /// <summary>
+        /// Sorts the cards by name asynchronous.
+        /// </summary>
+        /// <returns>
+        /// Sorted cards.
+        /// </returns>
         public async Task<IEnumerable<CardModel>> SortCardsByNameAsync()
         {
             var response = await _httpClient.GetAsync("cards/sort");
@@ -77,6 +122,13 @@ namespace TexodeTaskWin.Service.Logic
             return cards;
         }
 
+        /// <summary>
+        /// Updates the card asynchronous.
+        /// </summary>
+        /// <param name="card">The card.</param>
+        /// <returns>
+        /// Id of updated card.
+        /// </returns>
         public async Task<int> UpdateCardAsync(CardModel card)
         {
             var request = new HttpRequestMessage(HttpMethod.Put, "cards");
