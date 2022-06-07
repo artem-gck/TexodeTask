@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TexodeTaskWin.Model;
@@ -79,7 +81,19 @@ namespace TexodeTaskWin.ViewModel
                 return sortCommand ?? (sortCommand = new RelayCommand(obj =>
                 {
                     ErrorMassage = string.Empty;
-                    Cards = MapCardsModelToCards(Task.Run(() => _cardService.SortCardsByNameAsync()).Result);
+
+                    try
+                    {
+                        Cards = MapCardsModelToCards(Task.Run(() => _cardService.SortCardsByNameAsync()).Result);
+                    }
+                    catch (Exception)
+                    {
+                        var result = MessageBox.Show("Соединение с сервером было прервано, для решения проблемы обратитесь к специалисту.", "Потеря соединения", MessageBoxButton.OK);
+
+                        if (result == MessageBoxResult.OK)
+                            _mainWindow.Close();
+                    }
+
                     _mainPage.btnSort.Background = new SolidColorBrush(Color.FromRgb(58, 61, 121));
                 }));
             }
@@ -98,7 +112,19 @@ namespace TexodeTaskWin.ViewModel
                 return unSortCommand ?? (unSortCommand = new RelayCommand(obj =>
                   {
                       ErrorMassage = string.Empty;
-                      Cards = MapCardsModelToCards(Task.Run(() => _cardService.GetAllCardsAsync()).Result);
+
+                      try
+                      {
+                          Cards = MapCardsModelToCards(Task.Run(() => _cardService.GetAllCardsAsync()).Result);
+                      }
+                      catch (Exception)
+                      {
+                          var result = MessageBox.Show("Соединение с сервером было прервано, для решения проблемы обратитесь к специалисту.", "Потеря соединения", MessageBoxButton.OK);
+
+                          if (result == MessageBoxResult.OK)
+                              _mainWindow.Close();
+                      }
+
                       _mainPage.btnSort.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
                   }));
             }
@@ -158,17 +184,28 @@ namespace TexodeTaskWin.ViewModel
                 {
                     var cardsIdForDelete = Cards.Where(card => card.IsSelected).Select(card => card.Id).ToList();
 
-                    if (cardsIdForDelete.Count() == 0)
+                    try
                     {
-                        ErrorMassage = "*Выберите карточки";
-                        return;
-                    }
-                    else if (cardsIdForDelete.Count() > 1)
-                        _ = Task.Run(() => _cardService.DeleteListOFCardsAsync(cardsIdForDelete)).Result;
-                    else
-                        _ = Task.Run(() => _cardService.DeleteCardAsync(cardsIdForDelete.FirstOrDefault())).Result;
+                        if (cardsIdForDelete.Count() == 0)
+                        {
+                            ErrorMassage = "*Выберите карточки";
+                            return;
+                        }
+                        else if (cardsIdForDelete.Count() > 1)
+                            _ = Task.Run(() => _cardService.DeleteListOFCardsAsync(cardsIdForDelete)).Result;
+                        else
+                            _ = Task.Run(() => _cardService.DeleteCardAsync(cardsIdForDelete.FirstOrDefault())).Result;
 
-                    Cards = MapCardsModelToCards(Task.Run(() => _cardService.GetAllCardsAsync()).Result);
+                        Cards = MapCardsModelToCards(Task.Run(() => _cardService.GetAllCardsAsync()).Result);
+                    }
+                    catch (Exception)
+                    {
+                        var result = MessageBox.Show("Соединение с сервером было прервано, для решения проблемы обратитесь к специалисту.", "Потеря соединения", MessageBoxButton.OK);
+
+                        if (result == MessageBoxResult.OK)
+                            _mainWindow.Close();
+                    }
+
                 }));
             }
         }
@@ -181,7 +218,17 @@ namespace TexodeTaskWin.ViewModel
         /// <param name="mainWindow">The main window.</param>
         public MainPageViewModel(ICardService cardService, MainPage mainPage, MainWindow mainWindow)
         {
-            Cards = MapCardsModelToCards(Task.Run(() => cardService.GetAllCardsAsync()).Result);
+            try
+            {
+                Cards = MapCardsModelToCards(Task.Run(() => cardService.GetAllCardsAsync()).Result);
+            }                                
+            catch (Exception)
+            {
+                var result = MessageBox.Show("Соединение с сервером было прервано, для решения проблемы обратитесь к специалисту.", "Потеря соединения", MessageBoxButton.OK);
+
+                if (result == MessageBoxResult.OK)
+                    _mainWindow.Close();
+            }
 
             _cardService = cardService;
             _mainPage = mainPage;

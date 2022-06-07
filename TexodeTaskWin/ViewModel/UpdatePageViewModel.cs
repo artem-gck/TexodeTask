@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using TexodeTaskWin.Model;
 using TexodeTaskWin.Service;
@@ -113,7 +115,18 @@ namespace TexodeTaskWin.ViewModel
                         return;
                     }
 
-                    _ = Task.Run(() => _cardService.UpdateCardAsync(MapCardModel(card))).Result;
+                    try
+                    {
+                        _ = Task.Run(() => _cardService.UpdateCardAsync(MapCardModel(card))).Result;
+                    }
+                    catch (Exception)
+                    {
+                        var result = MessageBox.Show("Соединение с сервером было прервано, для решения проблемы обратитесь к специалисту.", "Потеря соединения", MessageBoxButton.OK);
+
+                        if (result == MessageBoxResult.OK)
+                            _mainWindow.Close();
+                    }
+
                     _mainWindow.frmScreen.Navigate(new MainPage(_cardService, _mainWindow));
                 }));
             }
@@ -130,7 +143,20 @@ namespace TexodeTaskWin.ViewModel
             _cardService = cardService;
             _mainWindow = mainWindow;
 
-            var cardModel = Task.Run(() => cardService.GetCardAsync(id)).Result;
+            CardModel cardModel = null;
+
+            try
+            {
+                cardModel = Task.Run(() => cardService.GetCardAsync(id)).Result;
+            }
+            catch (Exception)
+            {
+                var result = MessageBox.Show("Соединение с сервером было прервано, для решения проблемы обратитесь к специалисту.", "Потеря соединения", MessageBoxButton.OK);
+
+                if (result == MessageBoxResult.OK)
+                    _mainWindow.Close();
+            }
+
             Card = new Card()
             {
                 Id = cardModel.Id,

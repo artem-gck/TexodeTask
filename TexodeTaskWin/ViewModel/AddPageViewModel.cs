@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using TexodeTaskWin.Model;
 using TexodeTaskWin.Service;
@@ -113,7 +115,18 @@ namespace TexodeTaskWin.ViewModel
                         return;
                     }
 
-                    _ = Task.Run(() => _cardService.AddCardAsync(MapCardModel(card))).Result;
+                    try
+                    {
+                        _ = Task.Run(() => _cardService.AddCardAsync(MapCardModel(card))).Result;
+                    }
+                    catch (Exception)
+                    {
+                        var result = MessageBox.Show("Соединение с сервером было прервано, для решения проблемы обратитесь к специалисту.", "Потеря соединения", MessageBoxButton.OK);
+
+                        if (result == MessageBoxResult.OK)
+                            _mainWindow.Close();
+                    }
+
                     Card = new Card();
                 }));
             }
